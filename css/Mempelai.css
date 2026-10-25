@@ -1,0 +1,223 @@
+/* ==========================================================
+   MEMPELAI — foto berbingkai lengkung, kartu nama bertumpuk, animasi
+   Muat SETELAH style.css (memakai variabel warna & .rule / .sparkles).
+   ========================================================== */
+
+.couple { padding-bottom: 96px; }
+
+.salam {
+  margin-bottom: 16px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.08rem;
+  line-height: 1.5;
+  color: var(--gold-soft);
+}
+
+.couple .heading { margin-bottom: 44px; }
+
+/* ---------- Kartu satu mempelai ---------- */
+.pc {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+/* Bingkai lengkung + foto (melayang pelan) */
+.pc-frame {
+  position: relative;
+  width: 240px;
+  height: 320px;
+  margin: 0 auto;
+  animation: mp-float 7s ease-in-out infinite alternate;
+}
+
+.pc-groom .pc-frame { animation-delay: -3.5s; }
+
+.pc-line {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--gold);
+  border-bottom: 0;
+  border-radius: 999px 999px 0 0;
+}
+
+.pc-line.l2 {
+  inset: -10px -10px 0;
+  border-color: rgba(184, 151, 90, 0.4);
+}
+
+/* Garis tergambar saat kartu muncul */
+.js .pc-line { clip-path: inset(100% 0 0 0); }
+.js .pc.in .pc-line { animation: mp-draw 1.6s cubic-bezier(0.65, 0, 0.35, 1) forwards; }
+.js .pc.in .pc-line.l2 { animation-delay: 0.35s; }
+
+.pc-photo {
+  position: absolute;
+  inset: 6px 6px 0;
+  overflow: hidden;
+  border-radius: 999px 999px 0 0;
+  background: var(--navy-2);
+}
+
+.pc-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* Foto memudar ke navy di bagian bawah, menyatu dengan kartu nama */
+.pc-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(14, 34, 64, 0) 55%, rgba(14, 34, 64, 0.9) 100%);
+}
+
+/* Foto zoom-out halus saat muncul */
+.js .pc-photo img {
+  transform: scale(1.25);
+  transition: transform 2.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.js .pc.in .pc-photo img { transform: scale(1); }
+
+/* Label di puncak lengkungan */
+.pc-tag {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  z-index: 3;
+  padding: 5px 18px;
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  line-height: 1.6;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+/* Rangkaian bunga di sisi bingkai */
+.pc-fl {
+  position: absolute;
+  bottom: 40px;
+  z-index: 3;
+  width: 112px;
+  height: 112px;
+  color: var(--gold);
+  transform-origin: 50% 100%;
+  pointer-events: none;
+  animation: mp-sway 5s ease-in-out infinite alternate;
+}
+
+.pc-bride .pc-fl { left: -56px; }
+.pc-groom .pc-fl { right: -56px; scale: -1 1; }
+
+/* ---------- Kartu nama menumpuk di atas foto ---------- */
+.pc-cap {
+  position: relative;
+  z-index: 2;
+  max-width: 290px;
+  margin: -46px auto 0;
+  padding: 26px 22px 24px;
+  border: 1px solid rgba(184, 151, 90, 0.55);
+  background: rgba(14, 34, 64, 0.82);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 18px 40px rgba(5, 14, 30, 0.45);
+}
+
+.pc-name {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 2.8rem;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  color: var(--ivory);
+}
+
+.js .pc.in .pc-name { animation: mp-name 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) 0.5s both; }
+
+.pc-cap .rule { margin: 12px auto 14px; }
+
+.pc-parents {
+  font-size: 0.84rem;
+  line-height: 1.7;
+  color: rgba(250, 247, 242, 0.78);
+}
+
+/* ---------- Pemisah "&" ---------- */
+.pc-amp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  max-width: 290px;
+  margin: 40px auto;
+}
+
+.pc-amp::before,
+.pc-amp::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+
+.pc-amp::after { transform: scaleX(-1); }
+
+.pc-amp b {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 66px;
+  height: 66px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 2.3rem;
+  line-height: 1;
+  color: var(--gold);
+}
+
+.pc-amp b::before,
+.pc-amp b::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+
+.pc-amp b::before {
+  inset: 0;
+  border: 1px dashed var(--gold);
+  animation: mp-spin 18s linear infinite;
+}
+
+.pc-amp b::after {
+  inset: 7px;
+  border: 1px solid rgba(184, 151, 90, 0.5);
+  animation: mp-beat 2.4s ease-in-out infinite;
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes mp-float { to { transform: translateY(-10px); } }
+@keyframes mp-sway  { from { transform: rotate(-2.5deg); } to { transform: rotate(2.5deg); } }
+@keyframes mp-draw  { to { clip-path: inset(0); } }
+@keyframes mp-spin  { to { transform: rotate(360deg); } }
+@keyframes mp-beat  { 50% { transform: scale(1.14); opacity: 0.45; } }
+@keyframes mp-name  {
+  from { opacity: 0; letter-spacing: 0.3em; filter: blur(4px); }
+  to   { opacity: 1; letter-spacing: 0.02em; filter: blur(0); }
+}
+
+/* Pengguna yang mematikan animasi: tampilkan langsung */
+@media (prefers-reduced-motion: reduce) {
+  .js .pc-line { clip-path: none; }
+  .js .pc-photo img { transform: none; }
+}

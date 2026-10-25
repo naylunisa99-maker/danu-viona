@@ -1,0 +1,566 @@
+/* ==========================================================
+   RSVP (nama otomatis, hadir/tidak, ucapan) & HADIAH (QRIS + rekening)
+   Muat SETELAH style.css dan splash.css.
+   Urutan lapisan: Acara (ivory) → RSVP (navy) → Hadiah (ivory) → Penutup (navy)
+   ========================================================== */
+
+/* Ruang tambahan agar lengkung section berikutnya tidak menutup isi */
+#acara { padding-bottom: 128px; }
+
+/* ---------- RSVP ---------- */
+.rsvp {
+  z-index: 2;
+  margin-top: -56px;
+  padding-top: 118px;
+  padding-bottom: 130px;
+  border-radius: 50% 50% 0 0 / 56px 56px 0 0;
+  background: linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+  color: var(--ivory);
+  overflow: hidden;
+}
+
+.rsvp .heading { margin-bottom: 14px; }
+.rsvp .lead.light { margin: 6px auto 34px; }
+
+.sp-rb {
+  right: -44px;
+  bottom: 40px;
+  transform: rotate(180deg);
+  opacity: 0.3;
+  animation: drift-rb 9s ease-in-out infinite alternate;
+}
+
+.rsvp-form {
+  position: relative;
+  z-index: 1;
+  text-align: left;
+}
+
+.field { margin-bottom: 22px; }
+
+.fl {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+
+.fl-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.char-count {
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  color: rgba(250, 247, 242, 0.45);
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s;
+}
+
+.char-count.near { color: var(--gold-soft); }
+
+.rsvp-form input[type="text"],
+.rsvp-form textarea {
+  display: block;
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid rgba(184, 151, 90, 0.5);
+  border-radius: 0;
+  background: rgba(250, 247, 242, 0.06);
+  color: var(--ivory);
+  font: 300 1rem/1.5 var(--sans); /* 16px: mencegah zoom otomatis di iPhone */
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+}
+
+.rsvp-form textarea { resize: vertical; min-height: 120px; }
+
+.rsvp-form ::placeholder { color: rgba(250, 247, 242, 0.38); }
+
+.rsvp-form input[type="text"]:focus,
+.rsvp-form textarea:focus {
+  border-color: var(--gold);
+  background: rgba(250, 247, 242, 0.1);
+  box-shadow: 0 0 0 3px rgba(184, 151, 90, 0.18);
+}
+
+/* ---------- Nama tamu (terkunci otomatis dari "Kepada Yth.") ---------- */
+.name-lock { position: relative; }
+
+.name-lock svg {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.name-lock.is-locked svg { display: block; }
+
+.name-lock.is-locked input[type="text"] {
+  padding: 16px 44px 16px 16px;
+  border-color: var(--gold);
+  background: rgba(184, 151, 90, 0.12);
+  color: var(--gold-soft);
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  cursor: default;
+  animation: lockGlow 3.2s ease-in-out infinite;
+}
+
+.name-hint {
+  margin-top: 8px;
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  color: rgba(250, 247, 242, 0.55);
+}
+
+.name-hint[hidden] { display: none; }
+
+/* ---------- Pilihan Hadir / Tidak Hadir ---------- */
+.choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.choice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 8px;
+  border: 1px solid rgba(184, 151, 90, 0.5);
+  color: rgba(250, 247, 242, 0.8);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.35s, color 0.35s, border-color 0.35s, transform 0.35s;
+}
+
+/* Lingkaran penanda */
+.choice::before {
+  content: "";
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.choice:hover { border-color: var(--gold); transform: translateY(-1px); }
+
+.sr:checked + .choice {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--navy);
+  animation: ripple 0.8s ease-out;
+}
+
+.sr:checked + .choice::before {
+  background: var(--navy);
+  border-color: var(--navy);
+  box-shadow: inset 0 0 0 2px var(--gold);
+  animation: pop 0.45s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+.sr:focus-visible + .choice {
+  outline: 2px solid var(--gold-soft);
+  outline-offset: 2px;
+}
+
+/* ---------- Pesan galat ---------- */
+.field-err {
+  display: none;
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: #f0b4b4;
+}
+
+.field.err .field-err { display: block; animation: shake 0.45s; }
+.field.err input[type="text"],
+.field.err .choice { border-color: #e8a0a0; }
+
+/* ---------- Tombol kirim ---------- */
+.field-actions { margin-top: 8px; }
+
+.btn-solid {
+  position: relative;
+  width: 100%;
+  margin-top: 0;
+  overflow: hidden;
+  background: var(--gold);
+  color: var(--navy);
+}
+
+.btn-solid:hover { background: var(--gold-soft); }
+
+/* Kilau lewat berkala */
+.btn-solid::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -70%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: skewX(-20deg);
+  animation: sp-sweep 3.6s ease-in-out 1s infinite;
+}
+
+.btn-solid:disabled {
+  cursor: wait;
+  animation: btnPulse 1s ease-in-out infinite;
+}
+
+/* ---------- Pesan sukses ---------- */
+.rsvp-note {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border: 1px solid rgba(184, 151, 90, 0.5);
+  background: rgba(184, 151, 90, 0.12);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--gold-soft);
+  animation: noteIn 0.8s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+}
+
+.rsvp-note[hidden] { display: none; }
+
+/* Kelopak emas yang menyebar saat berhasil terkirim */
+.petal {
+  position: absolute;
+  z-index: 5;
+  width: 9px;
+  height: 15px;
+  border-radius: 80% 0 80% 0;
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+  pointer-events: none;
+  animation: petalFly 1.6s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+
+/* ---------- Daftar ucapan ---------- */
+.wishes {
+  position: relative;
+  z-index: 1;
+  margin-top: 54px;
+}
+
+.wishes-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.wishes-count {
+  margin: 4px 0 18px;
+  font-size: 0.7rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+
+.wish-list {
+  max-height: 380px;
+  padding-right: 4px;
+  overflow-y: auto;
+  list-style: none;
+  text-align: left;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) transparent;
+}
+
+.wish-list::-webkit-scrollbar { width: 4px; }
+.wish-list::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
+
+.wish {
+  margin-bottom: 10px;
+  padding: 16px 18px;
+  border: 1px solid rgba(184, 151, 90, 0.35);
+  border-left: 2px solid var(--gold);
+  background: rgba(250, 247, 242, 0.05);
+  opacity: 0;
+  animation: wishIn 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  animation-delay: var(--i, 0s);
+}
+
+/* Ucapan yang baru dikirim: bersinar sebentar */
+.wish.fresh {
+  animation: wishIn 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards, fresh 2.6s ease-out 0.4s;
+}
+
+.wish-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.wish-name {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.3rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.wish-badge {
+  flex: none;
+  padding: 3px 9px;
+  border: 1px solid var(--gold);
+  font-size: 0.56rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+
+.wish-badge.no { border-color: rgba(250, 247, 242, 0.3); color: rgba(250, 247, 242, 0.55); }
+
+.wish-text {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: rgba(250, 247, 242, 0.82);
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+
+.wish-time {
+  margin-top: 8px;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: rgba(250, 247, 242, 0.45);
+}
+
+.wish-empty {
+  padding: 22px 12px;
+  border: 1px dashed rgba(184, 151, 90, 0.4);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  text-align: center;
+  color: rgba(250, 247, 242, 0.65);
+  animation: breathe 3.5s ease-in-out infinite;
+}
+
+/* ---------- Hadiah ---------- */
+.gift {
+  z-index: 2;
+  margin-top: -56px;
+  padding-top: 118px;
+  padding-bottom: 130px;
+  border-radius: 50% 50% 0 0 / 56px 56px 0 0;
+  background: var(--ivory);
+  overflow: hidden;
+}
+
+.gift .heading.dark { margin-top: 10px; }
+
+.sp-gl {
+  left: -44px;
+  top: 64px;
+  transform: scaleX(-1);
+  opacity: 0.35;
+  animation: drift-gl 9s ease-in-out infinite alternate;
+}
+
+/* Kartu QRIS berbentuk lengkungan, senada bingkai ayat */
+.qris-card {
+  position: relative;
+  max-width: 270px;
+  margin: 30px auto 0;
+  padding: 34px 24px 24px;
+  border: 1px solid var(--gold-soft);
+  border-radius: 135px 135px 0 0;
+  background: var(--paper);
+  box-shadow: 0 18px 40px rgba(14, 34, 64, 0.07);
+}
+
+.qris {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 10px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.qris img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.qris-cap {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.or {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 30px 0 6px;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.or::before,
+.or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.bank {
+  margin-top: 14px;
+  padding: 22px 18px;
+  border: 1px solid var(--line);
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(14, 34, 64, 0.05);
+}
+
+.bank-name {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.bank-no {
+  margin: 4px 0 0;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.9rem;
+  letter-spacing: 0.06em;
+  color: var(--navy);
+}
+
+.bank-an {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.copy {
+  margin-top: 12px;
+  padding: 10px 24px;
+  border: 1px solid var(--gold);
+  background: transparent;
+  color: var(--navy);
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.copy:hover,
+.copy.done {
+  background: var(--gold);
+  color: var(--navy);
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes wishIn {
+  from { opacity: 0; transform: translateX(-26px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes fresh {
+  0%   { box-shadow: 0 0 0 0 rgba(216, 195, 152, 0.7), inset 0 0 24px rgba(184, 151, 90, 0.35); }
+  100% { box-shadow: 0 0 0 18px rgba(216, 195, 152, 0), inset 0 0 0 rgba(184, 151, 90, 0); }
+}
+
+@keyframes noteIn {
+  from { opacity: 0; transform: scale(0.88) translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes ripple {
+  0%   { box-shadow: 0 0 0 0 rgba(216, 195, 152, 0.7); }
+  100% { box-shadow: 0 0 0 16px rgba(216, 195, 152, 0); }
+}
+
+@keyframes pop {
+  0%   { transform: scale(0.4); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(2px); }
+}
+
+@keyframes lockGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(184, 151, 90, 0); }
+  50%      { box-shadow: 0 0 18px 0 rgba(184, 151, 90, 0.35); }
+}
+
+@keyframes btnPulse {
+  50% { opacity: 0.55; }
+}
+
+@keyframes breathe {
+  50% { opacity: 0.55; }
+}
+
+@keyframes petalFly {
+  0%   { opacity: 0; transform: translate(0, 0) rotate(0) scale(0.3); }
+  12%  { opacity: 1; }
+  60%  { opacity: 1; transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(1); }
+  100% { opacity: 0; transform: translate(calc(var(--dx) * 1.15), calc(var(--dy) + 110px)) rotate(calc(var(--rot) * 1.6)) scale(0.9); }
+}
+
+@keyframes drift-rb {
+  from { transform: rotate(180deg) translateY(0); }
+  to   { transform: rotate(176deg) translateY(12px); }
+}
+
+@keyframes drift-gl {
+  from { transform: scaleX(-1) rotate(0) translateY(0); }
+  to   { transform: scaleX(-1) rotate(4deg) translateY(12px); }
+}
