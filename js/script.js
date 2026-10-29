@@ -31,7 +31,7 @@
 
   // Musik & animasi mulai saat undangan dibuka (klik tombol = interaksi pengguna)
   openBox.addEventListener("change", function () {
-    if (openBox.checked) { play(); startReveal(); }
+    if (openBox.checked) { play(); startReveal(); setTimeout(spy, 50); }
   });
   if (openBox.checked) startReveal();
 
@@ -63,20 +63,84 @@
     items.forEach(function (el) { ro.observe(el); });
   }
 
-  /* ---------- Menu aktif saat scroll ---------- */
+  /* ---------- Menu aktif ----------
+     Dihitung dari posisi scroll (bukan IntersectionObserver), jadi tetap
+     akurat walau section saling menumpuk, bentuknya melengkung, atau
+     halaman di-scroll cepat / lewat klik menu. */
   var links = Array.prototype.slice.call(document.querySelectorAll(".nav a"));
   var targets = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
 
-  if ("IntersectionObserver" in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        var i = targets.indexOf(e.target);
-        links.forEach(function (a, n) { a.classList.toggle("active", n === i); });
-      });
-    }, { rootMargin: "-45% 0px -50% 0px" });
-    targets.forEach(function (t) { if (t) io.observe(t); });
+  var forced = null;      // menu yang baru diklik
+  var clicking = false;   // true selama scroll halus akibat klik
+  var idleTimer = 0;
+  var ticking = false;
+
+  function setActive(i) {
+    links.forEach(function (a, n) {
+      var on = n === i;
+      a.classList.toggle("active", on);
+      if (on) { a.setAttribute("aria-current", "true"); }
+      else { a.removeAttribute("aria-current"); }
+    });
   }
+
+  function spy() {
+    ticking = false;
+    if (clicking) return;
+
+    // Menu yang baru diklik dipercaya selama section-nya sudah di puncak layar
+    if (forced !== null) {
+      var ft = targets[forced] ? targets[forced].getBoundingClientRect().top : 9999;
+      if (Math.abs(ft) <= 24) { setActive(forced); return; }
+      forced = null;
+    }
+
+    var probe = window.innerHeight * 0.4;   // garis acuan di 40% tinggi layar
+    var idx = 0;
+    targets.forEach(function (t, i) {
+      if (t && t.getBoundingClientRect().top <= probe) idx = i;
+    });
+
+    // Mentok di dasar halaman: menu terakhir
+    var atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+    if (atBottom) idx = targets.length - 1;
+
+    setActive(idx);
+  }
+
+  function schedule() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(spy);
+  }
+
+  function endClick() {
+    clicking = false;
+    spy();
+  }
+
+  links.forEach(function (a, i) {
+    a.addEventListener("click", function () {
+      forced = i;
+      clicking = true;
+      setActive(i);
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(endClick, 500); // jaga-jaga bila tidak ada scroll
+    });
+  });
+
+  window.addEventListener("scroll", function () {
+    if (clicking) {
+      // tunggu scroll halus berhenti, baru pastikan menu sesuai
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(endClick, 160);
+      return;
+    }
+    schedule();
+  }, { passive: true });
+
+  window.addEventListener("resize", schedule);
+  spy();
 
   /* ---------- Salin nomor rekening ---------- */
   document.querySelectorAll(".copy").forEach(function (btn) {

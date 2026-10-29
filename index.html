@@ -7,6 +7,13 @@
   <link rel="icon" type="image/png" href="images/icon.jpeg">
   <meta name="description" content="Undangan pernikahan Viona &amp; Danuarta, Minggu 15 November 2026">
 
+  <!-- Pratinjau saat link dibagikan di WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="The Wedding of Viona &amp; Danuarta">
+  <meta property="og:description" content="Minggu, 15 November 2026">
+  <meta property="og:image" content="https://naylunisa99-maker.github.io/danu-viona/images/cover.jpeg">
+  <meta property="og:url" content="https://naylunisa99-maker.github.io/danu-viona/">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
@@ -14,6 +21,7 @@
   <link rel="stylesheet" href="css/splash.css">
   <link rel="stylesheet" href="css/mempelai.css">
   <link rel="stylesheet" href="css/Rsvp.css">
+  <link rel="stylesheet" href="css/rapi.css">
 </head>
 
 <body>
@@ -94,6 +102,43 @@
         <ellipse cx="26" cy="132" rx="3" ry="7"/>
       </g>
     </symbol>
+
+    <!-- Untaian bunga pemisah -->
+    <symbol id="vine" viewBox="0 0 320 70">
+      <g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M140 35 C118 35 104 24 80 27 S34 40 6 32"/>
+        <path d="M180 35 C202 35 216 24 240 27 S286 40 314 32"/>
+        <!-- daun kiri -->
+        <use href="#leaf" transform="translate(120 33) rotate(-150) scale(.6)"/>
+        <use href="#leaf" transform="translate(120 34) rotate(150) scale(.6)"/>
+        <use href="#leaf" transform="translate(96 29) rotate(-155) scale(.55)"/>
+        <use href="#leaf" transform="translate(96 29) rotate(145) scale(.55)"/>
+        <use href="#leaf" transform="translate(60 31) rotate(-160) scale(.5)"/>
+        <use href="#leaf" transform="translate(60 31) rotate(150) scale(.5)"/>
+        <use href="#leaf" transform="translate(30 37) rotate(-165) scale(.45)"/>
+        <!-- daun kanan -->
+        <use href="#leaf" transform="translate(200 33) rotate(-30) scale(.6)"/>
+        <use href="#leaf" transform="translate(200 34) rotate(30) scale(.6)"/>
+        <use href="#leaf" transform="translate(224 29) rotate(-25) scale(.55)"/>
+        <use href="#leaf" transform="translate(224 29) rotate(35) scale(.55)"/>
+        <use href="#leaf" transform="translate(260 31) rotate(-20) scale(.5)"/>
+        <use href="#leaf" transform="translate(260 31) rotate(30) scale(.5)"/>
+        <use href="#leaf" transform="translate(290 37) rotate(-15) scale(.45)"/>
+        <!-- bunga kecil -->
+        <g stroke-width="3.5">
+          <use href="#flower" transform="translate(80 27) scale(.26)"/>
+          <use href="#flower" transform="translate(240 27) scale(.26)"/>
+          <use href="#flower" transform="translate(40 36) scale(.2)"/>
+          <use href="#flower" transform="translate(280 36) scale(.2)"/>
+        </g>
+        <!-- bunga tengah -->
+        <g stroke-width="1.8">
+          <use href="#flower" transform="translate(160 35) scale(.55)"/>
+        </g>
+        <ellipse cx="6" cy="32" rx="2.5" ry="5" transform="rotate(-80 6 32)"/>
+        <ellipse cx="314" cy="32" rx="2.5" ry="5" transform="rotate(80 314 32)"/>
+      </g>
+    </symbol>
   </svg>
 
   <div class="wrap">
@@ -159,6 +204,9 @@
 
       <!-- Ayat -->
       <section id="ayat">
+        <svg class="cn cn-tl" aria-hidden="true"><use href="#bloom"/></svg>
+        <svg class="cn cn-tr" aria-hidden="true"><use href="#bloom"/></svg>
+
         <div class="arch-frame reveal" data-anim="zoom">
         <svg class="mark" aria-hidden="true"><use href="#sprig"/></svg>
         <p class="eyebrow dark">Pesan Berkah</p>
@@ -223,6 +271,9 @@
 
       <!-- Hitung Mundur -->
       <section class="countdown" id="hitung">
+        <svg class="cn cn-bl" aria-hidden="true" style="z-index:1"><use href="#bloom"/></svg>
+        <svg class="cn cn-br" aria-hidden="true" style="z-index:1"><use href="#bloom"/></svg>
+
         <div class="cd-bg" aria-hidden="true">
           <img src="images/cover2.jpeg" alt="" loading="lazy">
         </div>
@@ -257,6 +308,7 @@
 
       <!-- Acara -->
       <section id="acara">
+        <svg class="vine" data-anim="fade" aria-hidden="true"><use href="#vine"/></svg>
         <p class="eyebrow dark" data-anim="fade">Save The Date</p>
         <h2 class="heading dark" data-anim="up" style="--delay:.15s">Rangkaian Acara</h2>
         <p class="lead" data-anim="up" style="--delay:.3s">Dengan memohon rahmat dan ridho Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk hadir pada acara pernikahan kami.</p>
@@ -306,6 +358,9 @@
           <span style="--x:94%; --s:8.5s;--d:5.5s"></span>
         </div>
         <svg class="sprig sp-rb" aria-hidden="true"><use href="#sprig"/></svg>
+        <svg class="cn cn-tl" aria-hidden="true"><use href="#bloom"/></svg>
+        <svg class="cn cn-tr" aria-hidden="true"><use href="#bloom"/></svg>
+        <svg class="vine" data-anim="fade" aria-hidden="true"><use href="#vine"/></svg>
         <h2 class="heading" data-anim="up" style="--delay:.15s">Konfirmasi Kehadiran<br>&amp; Ucapan</h2>
         <p class="lead light" data-anim="up" style="--delay:.3s">Merupakan kehormatan bagi kami jika Anda berkenan memberi kabar kehadiran dan doa restu.</p>
 
@@ -355,28 +410,50 @@
       <!-- Hadiah: QRIS & rekening -->
       <section class="gift" id="hadiah">
         <svg class="sprig sp-gl" aria-hidden="true"><use href="#sprig"/></svg>
+        <svg class="vine" data-anim="fade" aria-hidden="true"><use href="#vine"/></svg>
         <p class="eyebrow dark wedding-gift" data-anim="fade">Wedding Gift</p>
         <!-- <h2 class="heading dark" data-anim="up" style="--delay:.15s">Kirim Hadiah</h2> -->
         <p class="lead" data-anim="up" style="--delay:.3s">Doa restu Anda adalah hadiah terindah. Namun jika berkenan memberikan tanda kasih, dapat melalui:</p>
 
-        <div class="bank" data-anim="up">
-          <p class="bank-name">Bank BNI</p>
-          <p class="bank-no" id="rek1">1982260883</p>
-          <p class="bank-an">a.n. Viona Nailunnisa</p>
-          <button type="button" class="copy" data-copy="#rek1">Salin Nomor</button>
+        <!-- Rekening tersembunyi; muncul setelah tombol ditekan (tanpa JavaScript) -->
+        <div class="gift-reveal" data-anim="up" style="--delay:.45s">
+          <input type="checkbox" id="giftToggle" class="gift-check" aria-controls="giftPanel">
+          <label for="giftToggle" class="btn btn-dark gift-btn">
+            <svg aria-hidden="true"><use href="#i-gift"/></svg>
+            <span class="t-open">Kirim Hadiah</span>
+            <span class="t-close">Tutup</span>
+          </label>
+
+          <div class="gift-panel" id="giftPanel">
+            <div class="gift-panel-in">
+              <div class="bank">
+                <p class="bank-name">Bank BNI</p>
+                <p class="bank-no" id="rek1">1982260883</p>
+                <p class="bank-an">a.n. Viona Nailunnisa</p>
+                <button type="button" class="copy" data-copy="#rek1">Salin Nomor</button>
+              </div>
+
+              <div class="bank">
+                <p class="bank-name">Bank BRI</p>
+                <p class="bank-no" id="rek2">008301121220501</p>
+                <p class="bank-an">a.n. Danuarta Iqbal R</p>
+                <button type="button" class="copy" data-copy="#rek2">Salin Nomor</button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="bank" data-anim="up" style="--delay:.15s">
-          <p class="bank-name">Bank BRI</p>
-          <p class="bank-no" id="rek2">008301121220501</p>
-          <p class="bank-an">a.n. Danuarta Iqbal R</p>
-          <button type="button" class="copy" data-copy="#rek2">Salin Nomor</button>
-        </div>
+        <svg class="cn cn-bl" aria-hidden="true"><use href="#bloom"/></svg>
+        <svg class="cn cn-br" aria-hidden="true"><use href="#bloom"/></svg>
       </section>
 
       <!-- Penutup -->
       <section class="closing" id="penutup">
         <svg class="sprig sp-bl" aria-hidden="true"><use href="#sprig"/></svg>
+        <svg class="cn cn-tl" aria-hidden="true"><use href="#bloom"/></svg>
+        <svg class="cn cn-tr" aria-hidden="true"><use href="#bloom"/></svg>
+        <svg class="cn cn-br" aria-hidden="true"><use href="#bloom"/></svg>
+        <svg class="vine" data-anim="fade" aria-hidden="true"><use href="#vine"/></svg>
         <p class="eyebrow" data-anim="fade">Terima Kasih</p>
         <p class="lead light" data-anim="up" style="--delay:.2s">Merupakan kebahagiaan dan kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.</p>
         <div class="rule" data-anim="line" style="--delay:.35s"></div>

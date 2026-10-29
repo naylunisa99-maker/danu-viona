@@ -1,0 +1,244 @@
+/* ==========================================================
+   RAPI — jarak seragam antar-section + ornamen bunga tambahan
+   Muat PALING AKHIR (setelah Rsvp.css).
+   ========================================================== */
+
+:root {
+  --sec-y: 56px;   /* jarak isi ke tepi section (atas & bawah) — SAMA di semua section */
+  --curve: 56px;   /* tinggi lengkung section yang menumpuk */
+  --gap-s: 14px;   /* jarak kecil antar-elemen */
+  --gap-m: 24px;   /* jarak sedang antar-elemen */
+}
+
+/* ---------- Jarak antar-section ---------- */
+.main section { padding: var(--sec-y) 24px; }
+
+/* Section yang diikuti section melengkung: tambah tinggi lengkung
+   supaya jarak yang terlihat tetap sama (56px) */
+#ayat,
+#acara,
+#hadiah { padding-bottom: calc(var(--sec-y) + var(--curve)); }
+
+/* Section melengkung: menumpuk ke atas dengan jarak yang sama */
+.couple, .rsvp, .closing { margin-top: calc(var(--curve) * -1); }
+
+#mempelai { padding-top: var(--sec-y); padding-bottom: var(--sec-y); }
+#rsvp, #hadiah { padding-top: var(--sec-y); }
+#hitung { padding: var(--sec-y) 22px; }
+
+/* Penutup: sisakan ruang untuk navbar melayang */
+#penutup { padding-top: var(--sec-y); padding-bottom: calc(var(--sec-y) + 72px); }
+
+/* ---------- Ritme jarak di dalam section ---------- */
+.main section .heading        { margin: var(--gap-s) 0 var(--gap-m); }
+.main section .lead,
+.main section .lead.light     { margin: 0 auto var(--gap-m); }
+
+.couple .salam                { margin-bottom: var(--gap-s); }
+/* Bawah lebih besar: label "The Groom" menonjol 14px ke atas
+   dan foto melayang 10px, jadi butuh ruang ekstra */
+.pc-amp                       { margin: 32px auto 56px; }
+.timer                        { margin: var(--gap-m) 0; }
+.event-card                   { margin-top: var(--gap-m); }
+.ev-sep                       { margin: var(--gap-m) auto; }
+.wishes                       { margin-top: calc(var(--gap-m) * 2); }
+.bank                         { margin-top: var(--gap-s); }
+.gift .eyebrow                { margin-bottom: var(--gap-s); padding: 0; }
+.arch-frame                   { padding: 56px 26px 40px; }
+
+/* Konten selalu di atas ornamen */
+.main section > :not(svg):not(.sparkles):not(.cd-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Ornamen: karangan bunga di sudut ---------- */
+.cn {
+  position: absolute;
+  z-index: 0;
+  width: 130px;
+  height: 130px;
+  color: var(--gold);
+  opacity: 0.75;
+  pointer-events: none;
+  animation: cn-sway 6s ease-in-out infinite alternate;
+}
+
+/* "bloom" tumbuh dari kiri-bawah; sisanya tinggal dibalik */
+.cn-bl { left: -8px;  bottom: -8px; }
+.cn-br { right: -8px; bottom: -8px; scale: -1 1; }
+.cn-tl { left: -8px;  top: -8px;    scale: 1 -1; }
+.cn-tr { right: -8px; top: -8px;    scale: -1 -1; }
+
+/* Di latar navy: lebih halus */
+.countdown .cn,
+.rsvp .cn,
+.closing .cn { opacity: 0.45; }
+
+/* Penyesuaian posisi per section */
+#ayat .cn            { width: 110px; height: 110px; }
+#ayat .cn-tl,
+#ayat .cn-tr         { top: 24px; }
+
+.rsvp .cn-tl,
+.rsvp .cn-tr,
+.closing .cn-tl,
+.closing .cn-tr      { top: calc(var(--curve) - 4px); }
+
+.gift .cn-bl,
+.gift .cn-br         { bottom: calc(var(--curve) + 4px); width: 110px; height: 110px; }
+
+@keyframes cn-sway {
+  from { transform: rotate(-2deg); }
+  to   { transform: rotate(2deg); }
+}
+
+/* ---------- Ornamen: untaian bunga pemisah ---------- */
+.vine {
+  display: block;
+  width: 280px;
+  height: 61px;
+  margin: 0 auto var(--gap-s);
+  color: var(--gold);
+}
+
+@media (max-width: 380px) {
+  .cn { width: 104px; height: 104px; }
+  .vine { width: 240px; height: 52px; }
+}
+
+/* ==========================================================
+   HADIAH: rekening tersembunyi, muncul setelah tombol ditekan
+   ========================================================== */
+.gift-check {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gift-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 0;
+}
+
+.gift-btn svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.gift-btn .t-close { display: none; }
+.gift-check:checked + .gift-btn .t-open  { display: none; }
+.gift-check:checked + .gift-btn .t-close { display: inline; }
+
+.gift-check:focus-visible + .gift-btn {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* Panel membuka halus (tinggi 0 -> otomatis) */
+.gift-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition: grid-template-rows 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+              opacity 0.6s ease,
+              visibility 0s 0.7s;
+}
+
+.gift-panel-in {
+  min-height: 0;
+  padding: 0 6px;
+  overflow: hidden;
+}
+
+.gift-check:checked ~ .gift-panel {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.gift-check:checked ~ .gift-panel .gift-panel-in { padding-bottom: 10px; }
+
+/* ==========================================================
+   TEPI ATAS SECTION
+   - RSVP    : lengkung bawang masjid (ogee)
+   - Hadiah  : rata, garis emas halus + berlian kecil  (SEMENTARA)
+   - Penutup : lengkung lembut seperti awal (dari style.css)
+   ========================================================== */
+
+/* RSVP: ogee, puncak runcing di tengah, bahu landai di sisi */
+.rsvp {
+  border-radius: 0;
+  --edge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 56' preserveAspectRatio='none'%3E%3Cpath d='M0 56V44H18C32 44 40 28 50 2C60 28 68 44 82 44H100V56Z'/%3E%3C/svg%3E");
+
+  -webkit-mask-image: var(--edge), linear-gradient(#000, #000);
+          mask-image: var(--edge), linear-gradient(#000, #000);
+  -webkit-mask-size: 100% var(--curve), 100% calc(100% - var(--curve) + 1px);
+          mask-size: 100% var(--curve), 100% calc(100% - var(--curve) + 1px);
+  -webkit-mask-position: top, bottom;
+          mask-position: top, bottom;
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+}
+
+/* Hadiah: tepi rata dengan garis emas tipis */
+.gift {
+  margin-top: 0;
+  border-radius: 0;
+}
+
+.gift::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 22%, var(--gold) 78%, transparent 100%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.gift::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  background: var(--gold);
+  transform: translate(-50%, -50%) rotate(45deg);
+  pointer-events: none;
+}
+
+/* Penutup: tidak ada aturan tambahan, memakai lengkung bawaan style.css */
+
+/* ==========================================================
+   NAVIGASI BAWAH: responsif di layar kecil
+   ========================================================== */
+.nav { max-width: calc(100vw - 16px); }
+
+@media (max-width: 400px) {
+  .nav { padding: 4px; gap: 0; }
+  .nav a { min-width: 30px; height: 32px; padding: 0 7px; }
+  .nav a.active { padding: 0 11px; }
+  .nav svg { width: 15px; height: 15px; }
+  .nav span { font-size: 0.56rem; letter-spacing: 0.1em; }
+  .nav a.active span { max-width: 62px; margin-left: 5px; }
+}
+
+/* Layar sangat sempit: tampilkan ikon saja, yang aktif tetap emas */
+@media (max-width: 340px) {
+  .nav a.active span { display: none; }
+  .nav a.active { padding: 0 9px; }
+}
