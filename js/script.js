@@ -39,6 +39,14 @@
     if (audio.paused) { play(); } else { audio.pause(); setPlaying(false); }
   });
 
+  // Lagu dimuat SETELAH semua foto selesai, supaya tidak berebut kuota
+  // dengan gambar (penyebab lagu putus-putus di data seluler).
+  window.addEventListener("load", function () {
+    if (!audio.paused) return;
+    audio.preload = "auto";
+    audio.load();
+  });
+
   /* ---------- Animasi muncul saat scroll ---------- */
   var revealStarted = false;
 

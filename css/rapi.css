@@ -242,3 +242,34 @@
   .nav a.active span { display: none; }
   .nav a.active { padding: 0 9px; }
 }
+
+/* ==========================================================
+   PERFORMA DI HP: kurangi beban animasi & efek blur
+   ========================================================== */
+/* Setelah muncul, lepaskan layer GPU agar memori tidak penuh */
+.js .reveal.in,
+.js [data-anim].in { will-change: auto; }
+
+@media (max-width: 600px), (hover: none) {
+  /* Partikel emas & animasi tak berhenti dimatikan di HP */
+  .sparkles { display: none; }
+  .cn,
+  .pc-fl,
+  .s-fl,
+  .sp-rb,
+  .sp-gl,
+  .pc-frame,
+  .splash::before,
+  .arch-photo img,
+  .pc-amp b::before,
+  .pc-amp b::after { animation: none; }
+
+  /* Blur latar real-time itu berat saat scroll */
+  .nav,
+  .fab-btn,
+  .pc-cap {
+    -webkit-backdrop-filter: none;
+            backdrop-filter: none;
+  }
+  .pc-cap { background: rgba(14, 34, 64, 0.94); }
+}
