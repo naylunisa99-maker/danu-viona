@@ -26,6 +26,7 @@
   var note = document.getElementById("rsvpNote");
   var list = document.getElementById("wishList");
   var count = document.getElementById("wishCount");
+  var box = list.parentNode; // pembungkus .wishes (untuk penanda bisa di-scroll)
 
   var wishes = [];
   var hasWA = /^\d{8,15}$/.test(CONFIG.waNumber);
@@ -59,6 +60,16 @@
   }
   inUcapan.addEventListener("input", updateCount);
 
+  /* ---------- Penanda daftar ucapan bisa di-scroll ---------- */
+  function checkScroll() {
+    var can = list.scrollHeight > list.clientHeight + 4;
+    var end = list.scrollTop + list.clientHeight >= list.scrollHeight - 6;
+    box.classList.toggle("can-scroll", can);
+    box.classList.toggle("at-end", end);
+  }
+  list.addEventListener("scroll", checkScroll, { passive: true });
+  window.addEventListener("resize", checkScroll);
+
   /* ---------- Daftar ucapan ---------- */
   function when(w) {
     if (!w) return "";
@@ -78,6 +89,7 @@
       empty.textContent = "Jadilah yang pertama mengirim ucapan";
       list.appendChild(empty);
       count.textContent = "Belum ada ucapan";
+      checkScroll();
       return;
     }
 
@@ -120,6 +132,7 @@
     });
 
     list.scrollTop = 0;
+    checkScroll();
   }
 
   function loadWishes() {

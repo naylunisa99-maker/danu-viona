@@ -347,6 +347,46 @@
         </article>
       </section>
 
+      <!-- Hadiah: QRIS & rekening -->
+      <section class="gift" id="hadiah">
+        <svg class="sprig sp-gl" aria-hidden="true"><use href="#sprig"/></svg>
+        <svg class="vine" data-anim="fade" aria-hidden="true"><use href="#vine"/></svg>
+        <p class="eyebrow dark wedding-gift" data-anim="fade">Wedding Gift</p>
+        <!-- <h2 class="heading dark" data-anim="up" style="--delay:.15s">Kirim Hadiah</h2> -->
+        <p class="lead" data-anim="up" style="--delay:.3s">Doa restu Anda adalah hadiah terindah. Namun jika berkenan memberikan tanda kasih, dapat melalui:</p>
+
+        <!-- Rekening tersembunyi; muncul setelah tombol ditekan (tanpa JavaScript) -->
+        <div class="gift-reveal" data-anim="up" style="--delay:.45s">
+          <input type="checkbox" id="giftToggle" class="gift-check" aria-controls="giftPanel">
+          <label for="giftToggle" class="btn btn-dark gift-btn">
+            <svg aria-hidden="true"><use href="#i-gift"/></svg>
+            <span class="t-open">Kirim Hadiah</span>
+            <span class="t-close">Tutup</span>
+          </label>
+
+          <div class="gift-panel" id="giftPanel">
+            <div class="gift-panel-in">
+              <div class="bank">
+                <p class="bank-name">Bank BNI</p>
+                <p class="bank-no" id="rek1">1982260883</p>
+                <p class="bank-an">a.n. Viona Nailunnisa</p>
+                <button type="button" class="copy" data-copy="#rek1">Salin Nomor</button>
+              </div>
+
+              <div class="bank">
+                <p class="bank-name">Bank BRI</p>
+                <p class="bank-no" id="rek2">008301121220501</p>
+                <p class="bank-an">a.n. Danuarta Iqbal R</p>
+                <button type="button" class="copy" data-copy="#rek2">Salin Nomor</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <svg class="cn cn-bl" aria-hidden="true"><use href="#bloom"/></svg>
+        <svg class="cn cn-br" aria-hidden="true"><use href="#bloom"/></svg>
+      </section>
+
       <!-- RSVP: konfirmasi kehadiran & ucapan -->
       <section class="rsvp" id="rsvp">
         <div class="sparkles" aria-hidden="true">
@@ -407,46 +447,6 @@
         </div>
       </section>
 
-      <!-- Hadiah: QRIS & rekening -->
-      <section class="gift" id="hadiah">
-        <svg class="sprig sp-gl" aria-hidden="true"><use href="#sprig"/></svg>
-        <svg class="vine" data-anim="fade" aria-hidden="true"><use href="#vine"/></svg>
-        <p class="eyebrow dark wedding-gift" data-anim="fade">Wedding Gift</p>
-        <!-- <h2 class="heading dark" data-anim="up" style="--delay:.15s">Kirim Hadiah</h2> -->
-        <p class="lead" data-anim="up" style="--delay:.3s">Doa restu Anda adalah hadiah terindah. Namun jika berkenan memberikan tanda kasih, dapat melalui:</p>
-
-        <!-- Rekening tersembunyi; muncul setelah tombol ditekan (tanpa JavaScript) -->
-        <div class="gift-reveal" data-anim="up" style="--delay:.45s">
-          <input type="checkbox" id="giftToggle" class="gift-check" aria-controls="giftPanel">
-          <label for="giftToggle" class="btn btn-dark gift-btn">
-            <svg aria-hidden="true"><use href="#i-gift"/></svg>
-            <span class="t-open">Kirim Hadiah</span>
-            <span class="t-close">Tutup</span>
-          </label>
-
-          <div class="gift-panel" id="giftPanel">
-            <div class="gift-panel-in">
-              <div class="bank">
-                <p class="bank-name">Bank BNI</p>
-                <p class="bank-no" id="rek1">1982260883</p>
-                <p class="bank-an">a.n. Viona Nailunnisa</p>
-                <button type="button" class="copy" data-copy="#rek1">Salin Nomor</button>
-              </div>
-
-              <div class="bank">
-                <p class="bank-name">Bank BRI</p>
-                <p class="bank-no" id="rek2">008301121220501</p>
-                <p class="bank-an">a.n. Danuarta Iqbal R</p>
-                <button type="button" class="copy" data-copy="#rek2">Salin Nomor</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <svg class="cn cn-bl" aria-hidden="true"><use href="#bloom"/></svg>
-        <svg class="cn cn-br" aria-hidden="true"><use href="#bloom"/></svg>
-      </section>
-
       <!-- Penutup -->
       <section class="closing" id="penutup">
         <svg class="sprig sp-bl" aria-hidden="true"><use href="#sprig"/></svg>
@@ -468,8 +468,8 @@
       <a href="#ayat"><svg><use href="#i-book"/></svg><span>Ayat</span></a>
       <a href="#mempelai"><svg><use href="#i-heart"/></svg><span>Mempelai</span></a>
       <a href="#acara"><svg><use href="#i-cal"/></svg><span>Acara</span></a>
-      <a href="#rsvp"><svg><use href="#i-msg"/></svg><span>RSVP</span></a>
       <a href="#hadiah"><svg><use href="#i-gift"/></svg><span>Hadiah</span></a>
+      <a href="#rsvp"><svg><use href="#i-msg"/></svg><span>RSVP</span></a>
       <a href="#penutup"><svg><use href="#i-pen"/></svg><span>Penutup</span></a>
     </nav>
 

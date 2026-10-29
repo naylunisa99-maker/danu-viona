@@ -16,8 +16,11 @@
 /* Section yang diikuti section melengkung: tambah tinggi lengkung
    supaya jarak yang terlihat tetap sama (56px) */
 #ayat,
-#acara,
-#hadiah { padding-bottom: calc(var(--sec-y) + var(--curve)); }
+#hadiah,
+#rsvp { padding-bottom: calc(var(--sec-y) + var(--curve)); }
+
+/* Acara kini diikuti Hadiah yang rata: tidak perlu ruang lengkung */
+#acara { padding-bottom: var(--sec-y); }
 
 /* Section melengkung: menumpuk ke atas dengan jarak yang sama */
 .couple, .rsvp, .closing { margin-top: calc(var(--curve) * -1); }
@@ -272,4 +275,163 @@
             backdrop-filter: none;
   }
   .pc-cap { background: rgba(14, 34, 64, 0.94); }
+}
+
+/* ==========================================================
+   UCAPAN & DOA: lebih ringkas, bisa di-scroll (untuk puluhan ucapan)
+   ========================================================== */
+.wishes        { margin-top: 40px; }
+.wishes-title  { font-size: 1.6rem; }
+.wishes-count  { margin: 4px 0 14px; font-size: 0.66rem; }
+
+.wish-list {
+  max-height: 290px;
+  padding-right: 6px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.wish {
+  margin-bottom: 8px;
+  padding: 11px 14px;
+}
+
+.wish-name  { font-size: 1.1rem; }
+.wish-badge { padding: 2px 8px; font-size: 0.52rem; }
+.wish-text  { margin-top: 4px; font-size: 0.84rem; line-height: 1.55; }
+.wish-time  { margin-top: 6px; font-size: 0.62rem; }
+.wish-empty { padding: 16px 12px; font-size: 1rem; }
+
+/* ==========================================================
+   UCAPAN & DOA: bingkai + penanda bahwa isinya bisa di-scroll
+   ========================================================== */
+.wish-list {
+  position: relative;
+  padding: 12px 8px 12px 12px;
+  border: 1px solid rgba(184, 151, 90, 0.55);
+  outline: 1px solid rgba(184, 151, 90, 0.22);   /* bingkai ganda tipis */
+  outline-offset: 4px;
+
+  /* Latar sendiri + bayangan di tepi atas/bawah yang muncul HANYA
+     bila masih ada isi di luar kotak (tanda bisa di-scroll) */
+  background-color: #0f2646;
+  background-image:
+    linear-gradient(#0f2646 30%, rgba(15, 38, 70, 0)),
+    linear-gradient(rgba(15, 38, 70, 0), #0f2646 70%),
+    radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0)),
+    radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
+  background-position: 0 0, 0 100%, 0 0, 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 40px, 100% 40px, 100% 16px, 100% 16px;
+  background-attachment: local, local, scroll, scroll;
+}
+
+/* Petunjuk di bawah bingkai: tampil hanya jika ucapan cukup banyak */
+.wishes::after {
+  content: "↓  Geser untuk membaca ucapan lainnya";
+  display: none;
+  margin-top: 16px;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+  animation: hint-bob 1.8s ease-in-out infinite;
+}
+
+.wishes.can-scroll::after            { display: block; }
+.wishes.can-scroll.at-end::after     { display: none; }
+
+@keyframes hint-bob {
+  50% { transform: translateY(3px); opacity: 0.6; }
+}
+
+/* ==========================================================
+   RESPONSIF: HP kecil → HP biasa → tablet → laptop
+   (ditaruh paling bawah agar menimpa ukuran tetap di file lain)
+   ========================================================== */
+
+/* ---------- Dasar ---------- */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+img, svg, video { max-width: 100%; }
+
+/* Tinggi layar HP yang benar (bilah alamat browser tidak ikut dihitung) */
+@supports (height: 100svh) {
+  .main { height: 100svh; }
+  .hero { height: 92svh; }
+}
+
+/* ---------- Ukuran huruf mengikuti lebar layar ---------- */
+.names                { font-size: clamp(2.4rem, 11.5vw, 3.2rem); }
+.hero .names          { font-size: clamp(2.6rem, 12.5vw, 3.4rem); }
+.names.small          { font-size: clamp(2.1rem, 9.5vw, 2.6rem); }
+.heading              { font-size: clamp(1.4rem, 6.2vw, 1.7rem); }
+.heading.dark         { font-size: clamp(1.8rem, 8vw, 2.3rem); }
+.cd-title             { font-size: clamp(2.8rem, 13vw, 3.6rem); }
+.tbox .num            { font-size: clamp(1.6rem, 7.5vw, 2.1rem); }
+.day                  { font-size: clamp(3.8rem, 17vw, 5rem); }
+.pc-name              { font-size: clamp(1.9rem, 9vw, 2.8rem); }
+.quote                { font-size: clamp(1.05rem, 4.7vw, 1.28rem); }
+.bank-no              { font-size: clamp(1.25rem, 6vw, 1.9rem); overflow-wrap: anywhere; }
+
+/* ---------- HP sangat kecil (≤ 360px) ---------- */
+@media (max-width: 360px) {
+  .main section        { padding-left: 18px; padding-right: 18px; }
+  #hitung              { padding-left: 16px; padding-right: 16px; }
+
+  .btn                 { padding: 13px 26px; letter-spacing: 0.22em; }
+  .timer               { gap: 6px; }
+  .tbox .lbl           { font-size: 0.56rem; letter-spacing: 0.14em; }
+
+  .arch-frame          { padding: 52px 20px 36px; }
+  .event-card          { padding: 64px 18px; border-radius: 160px; }
+
+  .pc-frame            { width: 220px; height: 296px; }
+  .pc-fl               { width: 92px; height: 92px; }
+  .pc-bride .pc-fl     { left: -46px; }
+  .pc-groom .pc-fl     { right: -46px; }
+  .pc-cap              { padding: 22px 16px 20px; }
+
+  /* pilihan Hadir / Tidak Hadir agar tidak terpotong */
+  .choice              { gap: 6px; padding: 14px 4px; font-size: 0.64rem; letter-spacing: 0.1em; }
+
+  .bank                { padding: 20px 12px; }
+  .wish-list           { padding: 10px 6px 10px 10px; }
+}
+
+/* ---------- Layar pendek (HP kecil / mode landscape) ---------- */
+@media (max-height: 680px) {
+  .s-arch              { --h: clamp(110px, 24vh, 170px); margin: 8px auto 10px; }
+  .splash .names       { font-size: clamp(1.7rem, 8vw, 2.2rem); }
+  .splash .date        { margin-bottom: 10px; }
+  .guest-greeting      { margin-bottom: 12px; padding: 6px 14px 4px; }
+  .sp-tl, .sp-br       { width: 110px; height: 110px; }
+}
+
+@media (max-height: 520px) {
+  /* splash boleh di-scroll bila layar sangat pendek */
+  .splash-content      { justify-content: flex-start; padding-top: 16px; padding-bottom: 16px; overflow-y: auto; }
+}
+
+/* ---------- Tablet & laptop (≥ 600px) ----------
+   Undangan tampil sebagai kolom 480px di tengah, seperti di HP,
+   dengan latar navy di kiri-kanan. */
+@media (min-width: 600px) {
+  body {
+    background: radial-gradient(120% 90% at 50% 0, #16315a 0%, #0a1a33 70%) fixed;
+  }
+
+  .wrap {
+    box-shadow: 0 0 0 1px rgba(184, 151, 90, 0.35), 0 0 80px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Splash ikut dibatasi selebar kolom undangan */
+  .splash { max-width: 480px; margin: 0 auto; }
+
+  .hero { height: min(92vh, 860px); }
+}
+
+@media (min-width: 600px) {
+  @supports (height: 100svh) {
+    .hero { height: min(92svh, 860px); }
+  }
 }
