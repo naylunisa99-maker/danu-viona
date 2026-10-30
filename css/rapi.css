@@ -360,18 +360,72 @@ img, svg, video { max-width: 100%; }
   .hero { height: 92svh; }
 }
 
-/* ---------- Ukuran huruf mengikuti lebar layar ---------- */
-.names                { font-size: clamp(2.4rem, 11.5vw, 3.2rem); }
-.hero .names          { font-size: clamp(2.6rem, 12.5vw, 3.4rem); }
-.names.small          { font-size: clamp(2.1rem, 9.5vw, 2.6rem); }
-.heading              { font-size: clamp(1.4rem, 6.2vw, 1.7rem); }
-.heading.dark         { font-size: clamp(1.8rem, 8vw, 2.3rem); }
-.cd-title             { font-size: clamp(2.8rem, 13vw, 3.6rem); }
-.tbox .num            { font-size: clamp(1.6rem, 7.5vw, 2.1rem); }
-.day                  { font-size: clamp(3.8rem, 17vw, 5rem); }
-.pc-name              { font-size: clamp(1.9rem, 9vw, 2.8rem); }
-.quote                { font-size: clamp(1.05rem, 4.7vw, 1.28rem); }
-.bank-no              { font-size: clamp(1.25rem, 6vw, 1.9rem); overflow-wrap: anywhere; }
+/* ---------- Ukuran huruf mengikuti lebar layar (ringkas untuk HP) ---------- */
+
+/* Nama mempelai: kaligrafi halus (Great Vibes). Lucida Calligraphy hanya
+   ada di Windows, jadi di HP tampil sebagai font polos yang kaku. */
+.names {
+  font-family: "Great Vibes", "Pinyon Script", "Lucida Calligraphy", cursive;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.2;
+  font-size: clamp(2.2rem, 10vw, 2.8rem);
+}
+.names .amp           { font-size: 1.5rem; margin: 2px 0; }
+.hero .names          { font-size: clamp(2.5rem, 11.5vw, 3.1rem); }
+.names.small          { font-size: clamp(2rem, 9vw, 2.5rem); }
+.splash .names        { font-size: clamp(1.9rem, 8.5vw, 2.4rem); }
+
+/* Teks kecil */
+.eyebrow              { font-size: 0.66rem; }
+.eyebrow.wedding-gift { font-size: clamp(1.3rem, 6vw, 1.6rem); }
+.hero .date           { font-size: 0.72rem; }
+.splash .date         { font-size: 0.66rem; }
+.guest-label          { font-size: 0.72rem; }
+.guest-name           { font-size: clamp(1.1rem, 4.4vw, 1.5rem); }
+.lead                 { font-size: 0.86rem; }
+.salam                { font-size: 0.98rem; }
+
+/* Judul */
+.heading              { font-size: clamp(1.2rem, 5.2vw, 1.5rem); }
+.heading.dark         { font-size: clamp(1.55rem, 6.8vw, 1.95rem); }
+.main .couple .heading {
+  font-size: clamp(1.02rem, 4.5vw, 1.2rem);
+  line-height: 1.5;
+  text-wrap: balance;
+}
+.cd-title             { font-size: clamp(2.3rem, 10.5vw, 3rem); }
+.tbox .num            { font-size: clamp(1.4rem, 6.5vw, 1.8rem); }
+.quote                { font-size: clamp(0.95rem, 4.2vw, 1.12rem); }
+.mark                 { width: 52px; height: 52px; }
+
+/* Acara */
+.kind                 { font-size: 0.74rem; }
+.day                  { font-size: clamp(3.2rem, 14vw, 4.2rem); }
+.month                { font-size: 0.74rem; }
+.time                 { font-size: 1.2rem; }
+.place                { font-size: 0.86rem; }
+
+/* Mempelai: nama selalu satu baris lurus */
+.pc-frame             { width: 220px; height: 290px; }
+.pc-cap               { max-width: 300px; padding: 22px 14px 20px; }
+.pc-name {
+  font-size: clamp(1.15rem, 6vw, 1.55rem);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.pc-parents           { font-size: 0.8rem; }
+
+/* Animasi nama: jangan melebar jauh keluar kartu */
+@keyframes mp-name {
+  from { opacity: 0; letter-spacing: 0.06em; filter: blur(4px); }
+  to   { opacity: 1; letter-spacing: 0.01em; filter: blur(0); }
+}
+
+/* Hadiah & tombol */
+.bank-no              { font-size: clamp(1.1rem, 5.2vw, 1.6rem); overflow-wrap: anywhere; }
+.btn                  { font-size: 0.68rem; padding: 12px 28px; }
+.fab-btn              { width: 38px; height: 38px; }
 
 /* ---------- HP sangat kecil (≤ 360px) ---------- */
 @media (max-width: 360px) {
@@ -385,11 +439,11 @@ img, svg, video { max-width: 100%; }
   .arch-frame          { padding: 52px 20px 36px; }
   .event-card          { padding: 64px 18px; border-radius: 160px; }
 
-  .pc-frame            { width: 220px; height: 296px; }
+  .pc-frame            { width: 200px; height: 264px; }
   .pc-fl               { width: 92px; height: 92px; }
   .pc-bride .pc-fl     { left: -46px; }
   .pc-groom .pc-fl     { right: -46px; }
-  .pc-cap              { padding: 22px 16px 20px; }
+  .pc-cap              { padding: 20px 12px 18px; }
 
   /* pilihan Hadir / Tidak Hadir agar tidak terpotong */
   .choice              { gap: 6px; padding: 14px 4px; font-size: 0.64rem; letter-spacing: 0.1em; }
@@ -434,4 +488,62 @@ img, svg, video { max-width: 100%; }
   @supports (height: 100svh) {
     .hero { height: min(92svh, 860px); }
   }
+}
+
+/* ==========================================================
+   PENUTUP: rapi, simetris, satu poros tengah
+   Untaian bunga di atas & bawah membingkai ucapan terima kasih.
+   ========================================================== */
+.closing .closing-title {
+  margin: 0 0 14px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 8vw, 2.2rem);
+  line-height: 1.2;
+  color: var(--ivory);
+}
+
+.closing .lead.light {
+  max-width: 300px;
+  margin: 0 auto var(--gap-m);
+  line-height: 1.85;
+  color: rgba(250, 247, 242, 0.88);
+}
+
+.closing .rule  { margin: 0 auto 24px; }
+
+.closing .with {
+  margin-bottom: 6px;
+  font-size: 0.66rem;
+  letter-spacing: 0.3em;
+}
+
+/* Nama pasangan dalam satu baris */
+.closing .names.small {
+  margin-top: 0;
+  font-size: clamp(2.1rem, 10vw, 2.6rem);
+  white-space: nowrap;
+}
+
+.closing .names .amp {
+  display: inline-block;
+  margin: 0 0.18em;
+  font-size: 0.62em;
+  vertical-align: 0.12em;
+  color: var(--gold-soft);
+}
+
+/* Untaian bawah: cermin dari yang atas */
+.closing .vine-b {
+  margin: 30px auto 0;
+  scale: 1 -1;
+  opacity: 0.8;
+}
+.arab {
+  font-family: "Amiri", "Traditional Arabic", serif;
+  font-size: clamp(1.15rem, 5.4vw, 1.4rem);
+  line-height: 2.1;
+  color: var(--navy);
+  margin:0 0 14px;
 }

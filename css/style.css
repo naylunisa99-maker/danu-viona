@@ -272,7 +272,7 @@ section {
 }
 
 .quote {
-  margin-top: 22px;
+  /* margin-top: 15px; */
   font-family: var(--serif);
   font-style: italic;
   font-size: 1.28rem;
