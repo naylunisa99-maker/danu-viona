@@ -47,6 +47,35 @@
     audio.load();
   });
 
+  /* ---------- Tombol "Buka Undangan" menunggu foto utama siap ----------
+     Supaya tamu tidak membuka undangan yang fotonya masih kosong. */
+  var openBtn = document.querySelector(".splash label.btn");
+  if (openBtn) {
+    var label = openBtn.textContent;
+    var keyImgs = Array.prototype.slice.call(document.querySelectorAll(".arch-photo img, .hero img"));
+    var pending = keyImgs.filter(function (im) { return !(im.complete && im.naturalWidth); });
+
+    if (pending.length) {
+      var ready = false;
+      var left = pending.length;
+      openBtn.textContent = "Memuat…";
+      openBtn.classList.add("is-wait");
+
+      var ok = function () {
+        if (ready) return;
+        ready = true;
+        openBtn.textContent = label;
+        openBtn.classList.remove("is-wait");
+      };
+      pending.forEach(function (im) {
+        var fin = function () { left -= 1; if (left <= 0) ok(); };
+        im.addEventListener("load", fin, { once: true });
+        im.addEventListener("error", fin, { once: true });
+      });
+      setTimeout(ok, 7000); // jaga-jaga bila koneksi sangat lambat
+    }
+  }
+
   /* ---------- Animasi muncul saat scroll ---------- */
   var revealStarted = false;
 

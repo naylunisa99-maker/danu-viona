@@ -289,6 +289,15 @@ section {
   color: var(--gold-deep);
 }
 
+.ref2 {
+  /* margin-top: 18px; */
+  font-size: 0.60rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
 /* ---------- 8. Mempelai ---------- */
 .couple {
   z-index: 2;

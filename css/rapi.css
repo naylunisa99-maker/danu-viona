@@ -540,10 +540,13 @@ img, svg, video { max-width: 100%; }
   scale: 1 -1;
   opacity: 0.8;
 }
-.arab {
-  font-family: "Amiri", "Traditional Arabic", serif;
-  font-size: clamp(1.15rem, 5.4vw, 1.4rem);
-  line-height: 2.1;
-  color: var(--navy);
-  margin:0 0 14px;
-}
+
+/* ==========================================================
+   FOTO: terasa lebih cepat muncul
+   ========================================================== */
+.btn.is-wait { opacity: 0.6; pointer-events: none; }
+
+/* Animasi zoom foto dipersingkat (sebelumnya 2.4–3.4 detik) */
+.js .hero img     { transition-duration: 1.8s; }
+.js .pc-photo img { transition-duration: 1.4s; }
+.js .pc-line      { transition-duration: 1.2s; }
