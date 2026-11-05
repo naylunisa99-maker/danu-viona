@@ -28,7 +28,14 @@
   var count = document.getElementById("wishCount");
   var box = list.parentNode; // pembungkus .wishes (untuk penanda bisa di-scroll)
 
-  var wishes = [];
+  var wishes = [];       // yang ditampilkan
+  var serverRows = [];   // data terakhir dari Google Sheet
+  var pending = [];      // ucapan yang baru dikirim & belum muncul di Sheet
+  var lastSig = "";
+  var loadedOnce = false;
+  var polling = false;
+  var pollTimer = 0;
+  var POLL_MS = 15000;   // cek perubahan Sheet tiap 15 detik (hanya saat daftar ucapan terlihat)
   var hasWA = /^\d{8,15}$/.test(CONFIG.waNumber);
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -79,7 +86,8 @@
     return d.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
   }
 
-  function render(freshEntry) {
+  function render(freshEntry, silent) {
+    var keep = list.scrollTop;
     list.textContent = "";
     var shown = wishes.filter(function (w) { return w.ucapan; });
 
@@ -99,6 +107,7 @@
       var li = document.createElement("li");
       li.className = "wish" + (w === freshEntry ? " fresh" : "");
       li.style.setProperty("--i", Math.min(i, 10) * 0.08 + "s"); // muncul bergiliran
+      if (silent && w !== freshEntry) { li.style.animation = "none"; li.style.opacity = "1"; } // pembaruan diam-diam: tanpa kedip
 
       var head = document.createElement("div");
       head.className = "wish-head";
@@ -131,19 +140,91 @@
       list.appendChild(li);
     });
 
-    list.scrollTop = 0;
+    list.scrollTop = silent ? keep : 0;
     checkScroll();
   }
 
-  function loadWishes() {
-    if (!CONFIG.sheetUrl) { render(); return; }
-    fetch(CONFIG.sheetUrl)
+  /* ---------- Sinkron otomatis dengan Google Sheet ----------
+     Bila baris di Sheet dihapus / diubah, daftar ucapan di web ikut
+     berubah tanpa perlu refresh. */
+  function sameKey(a, b) {
+    return String(a.nama || "").trim().toLowerCase() === String(b.nama || "").trim().toLowerCase() &&
+           String(a.ucapan || "").trim() === String(b.ucapan || "").trim();
+  }
+
+  function applyRows(rows, silent) {
+    var now = Date.now();
+    // entri lokal dibuang bila sudah muncul di Sheet (atau sudah terlalu lama)
+    pending = pending.filter(function (p) {
+      if (now - p.at > 90000) return false;
+      return !rows.some(function (r) { return sameKey(r, p); });
+    });
+
+    var sig = JSON.stringify(rows.map(function (r) {
+      return [r.nama, r.status, r.ucapan, r.waktu];
+    })) + "|" + pending.length;
+    var changed = sig !== lastSig;
+    lastSig = sig;
+    serverRows = rows;
+    if (!changed && loadedOnce) return;
+
+    wishes = pending.concat(serverRows);
+    render(undefined, silent && loadedOnce);
+    loadedOnce = true;
+  }
+
+  function firstRender() {
+    if (loadedOnce) return;
+    render();
+    loadedOnce = true;
+  }
+
+  function fetchWishes(silent) {
+    if (!CONFIG.sheetUrl) { firstRender(); return; }
+    if (polling) return;
+    polling = true;
+    var guard = setTimeout(function () { polling = false; }, 15000);
+    var url = CONFIG.sheetUrl + (CONFIG.sheetUrl.indexOf("?") > -1 ? "&" : "?") + "t=" + Date.now();
+
+    fetch(url)
       .then(function (r) { return r.json(); })
       .then(function (rows) {
-        if (Array.isArray(rows)) wishes = rows.concat(wishes);
-        render();
+        if (Array.isArray(rows)) { applyRows(rows, silent); } else { firstRender(); }
       })
-      .catch(function () { render(); });
+      .catch(function () { firstRender(); })
+      .then(function () { clearTimeout(guard); polling = false; });
+  }
+
+  function startPolling() {
+    if (pollTimer || !CONFIG.sheetUrl) return;
+    pollTimer = setInterval(function () {
+      if (!document.hidden) fetchWishes(true);
+    }, POLL_MS);
+  }
+
+  function stopPolling() {
+    clearInterval(pollTimer);
+    pollTimer = 0;
+  }
+
+  // Cek berkala hanya selama daftar ucapan terlihat di layar (hemat kuota Google)
+  function watchList() {
+    if (!CONFIG.sheetUrl) return;
+    if (!("IntersectionObserver" in window)) { startPolling(); return; }
+
+    new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) { fetchWishes(true); startPolling(); }
+      else { stopPolling(); }
+    }, { rootMargin: "200px 0px" }).observe(box);
+
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden && pollTimer) fetchWishes(true);
+    });
+  }
+
+  function loadWishes() {
+    fetchWishes(false);
+    watchList();
   }
 
   /* ---------- Efek kelopak emas saat berhasil ---------- */
@@ -219,7 +300,13 @@
     }
 
     function finish(msg) {
-      wishes.unshift(entry);
+      if (CONFIG.sheetUrl) {
+        entry.at = Date.now();
+        pending.unshift(entry);
+        wishes = pending.concat(serverRows);
+      } else {
+        wishes.unshift(entry);
+      }
       render(entry);
       inUcapan.value = "";
       updateCount();
@@ -241,7 +328,10 @@
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({ nama: entry.nama, status: entry.status, ucapan: entry.ucapan })
       })
-        .then(function () { finish(thanks); })
+        .then(function () {
+          finish(thanks);
+          setTimeout(function () { fetchWishes(true); }, 3000);
+        })
         .catch(function () {
           reset();
           showNote("Gagal mengirim. Periksa koneksi lalu coba lagi.");
