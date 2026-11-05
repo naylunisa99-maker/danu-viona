@@ -18,7 +18,7 @@
   var fNama = document.getElementById("fNama");
   var fStatus = document.getElementById("fStatus");
   var nameLock = document.getElementById("nameLock");
-  var nameHint = document.getElementById("nameHint");
+  // var nameHint = document.getElementById("nameHint");
   var inNama = document.getElementById("rNama");
   var inUcapan = document.getElementById("rUcapan");
   var counter = document.getElementById("rCount");
@@ -38,7 +38,7 @@
     inNama.value = to;
     inNama.readOnly = true; // terkunci: nama tamu sesuai undangan
     nameLock.classList.add("is-locked");
-    nameHint.hidden = false;
+    // nameHint.hidden = false;
   }
 
   /* ---------- Pilihan hadir / tidak ---------- */
