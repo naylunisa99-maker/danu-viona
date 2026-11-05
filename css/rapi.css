@@ -369,39 +369,39 @@ img, svg, video { max-width: 100%; }
   font-weight: 400;
   letter-spacing: 0;
   line-height: 1.2;
-  font-size: clamp(2.2rem, 10vw, 2.8rem);
+  font-size: clamp(1.5rem, 10vw, 2.8rem);
 }
 .names .amp           { font-size: 1.5rem; margin: 2px 0; }
-.hero .names          { font-size: clamp(2.5rem, 11.5vw, 3.1rem); }
-.names.small          { font-size: clamp(2rem, 9vw, 2.5rem); }
-.splash .names        { font-size: clamp(1.9rem, 8.5vw, 2.4rem); }
+.hero .names          { font-size: clamp(1.8rem, 11.5vw, 3.1rem); }
+.names.small          { font-size: clamp(1.5rem, 9vw, 2.5rem); }
+.splash .names        { font-size: clamp(1.3rem, 8.5vw, 2.4rem); }
 
 /* Teks kecil */
 .eyebrow              { font-size: 0.66rem; }
-.eyebrow.wedding-gift { font-size: clamp(1.3rem, 6vw, 1.6rem); }
+.eyebrow.wedding-gift { font-size: clamp(1rem, 6vw, 1.6rem); }
 .hero .date           { font-size: 0.72rem; }
 .splash .date         { font-size: 0.66rem; }
 .guest-label          { font-size: 0.72rem; }
-.guest-name           { font-size: clamp(1.1rem, 4.4vw, 1.5rem); }
+.guest-name           { font-size: clamp(0.9rem, 4.4vw, 1.5rem); }
 .lead                 { font-size: 0.86rem; }
 .salam                { font-size: 0.98rem; }
 
 /* Judul */
-.heading              { font-size: clamp(1.2rem, 5.2vw, 1.5rem); }
-.heading.dark         { font-size: clamp(1.55rem, 6.8vw, 1.95rem); }
+.heading              { font-size: clamp(0.95rem, 5.2vw, 1.5rem); }
+.heading.dark         { font-size: clamp(1.2rem, 6.8vw, 1.95rem); }
 .main .couple .heading {
-  font-size: clamp(1.02rem, 4.5vw, 1.2rem);
+  font-size: clamp(0.82rem, 4.5vw, 1.2rem);
   line-height: 1.5;
   text-wrap: balance;
 }
-.cd-title             { font-size: clamp(2.3rem, 10.5vw, 3rem); }
-.tbox .num            { font-size: clamp(1.4rem, 6.5vw, 1.8rem); }
-.quote                { font-size: clamp(0.95rem, 4.2vw, 1.12rem); }
+.cd-title             { font-size: clamp(1.7rem, 10.5vw, 3rem); }
+.tbox .num            { font-size: clamp(1.1rem, 6.5vw, 1.8rem); }
+.quote                { font-size: clamp(0.8rem, 4.2vw, 1.12rem); }
 .mark                 { width: 52px; height: 52px; }
 
 /* Acara */
 .kind                 { font-size: 0.74rem; }
-.day                  { font-size: clamp(3.2rem, 14vw, 4.2rem); }
+.day                  { font-size: clamp(2.4rem, 14vw, 4.2rem); }
 .month                { font-size: 0.74rem; }
 .time                 { font-size: 1.2rem; }
 .place                { font-size: 0.86rem; }
@@ -410,7 +410,7 @@ img, svg, video { max-width: 100%; }
 .pc-frame             { width: 220px; height: 290px; }
 .pc-cap               { max-width: 300px; padding: 22px 14px 20px; }
 .pc-name {
-  font-size: clamp(1.15rem, 6vw, 1.55rem);
+  font-size: clamp(0.7rem, 7vw, 1.55rem);
   letter-spacing: 0.01em;
   white-space: nowrap;
 }
@@ -423,7 +423,7 @@ img, svg, video { max-width: 100%; }
 }
 
 /* Hadiah & tombol */
-.bank-no              { font-size: clamp(1.1rem, 5.2vw, 1.6rem); overflow-wrap: anywhere; }
+.bank-no              { font-size: clamp(0.9rem, 5.2vw, 1.6rem); overflow-wrap: anywhere; }
 .btn                  { font-size: 0.68rem; padding: 12px 28px; }
 .fab-btn              { width: 38px; height: 38px; }
 
@@ -455,7 +455,7 @@ img, svg, video { max-width: 100%; }
 /* ---------- Layar pendek (HP kecil / mode landscape) ---------- */
 @media (max-height: 680px) {
   .s-arch              { --h: clamp(110px, 24vh, 170px); margin: 8px auto 10px; }
-  .splash .names       { font-size: clamp(1.7rem, 8vw, 2.2rem); }
+  .splash .names       { font-size: clamp(1.3rem, 8vw, 2.2rem); }
   .splash .date        { margin-bottom: 10px; }
   .guest-greeting      { margin-bottom: 12px; padding: 6px 14px 4px; }
   .sp-tl, .sp-br       { width: 110px; height: 110px; }
@@ -499,7 +499,7 @@ img, svg, video { max-width: 100%; }
   font-family: var(--serif);
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(1.8rem, 8vw, 2.2rem);
+  font-size: clamp(1.3rem, 8vw, 2.2rem);
   line-height: 1.2;
   color: var(--ivory);
 }
@@ -522,7 +522,7 @@ img, svg, video { max-width: 100%; }
 /* Nama pasangan dalam satu baris */
 .closing .names.small {
   margin-top: 0;
-  font-size: clamp(2.1rem, 10vw, 2.6rem);
+  font-size: clamp(1.5rem, 10vw, 2.6rem);
   white-space: nowrap;
 }
 
@@ -550,3 +550,107 @@ img, svg, video { max-width: 100%; }
 .js .hero img     { transition-duration: 1.8s; }
 .js .pc-photo img { transition-duration: 1.4s; }
 .js .pc-line      { transition-duration: 1.2s; }
+
+/* ==========================================================
+   SEMUA PERANGKAT (final)
+   Ada HP yang lebar layarnya "hanya" ±240–300px karena ukuran
+   tampilan / zoom diperbesar. Bagian ini membuat semua elemen
+   mengikuti lebar layar, bukan ukuran tetap.
+   ========================================================== */
+
+/* ---------- Elemen yang kini mengikuti lebar layar ---------- */
+.pc            { --pw: min(220px, 66vw); --fl: clamp(64px, 28vw, 112px); }
+.pc-frame      { width: var(--pw); height: calc(var(--pw) * 1.32); }
+.pc-fl         { width: var(--fl); height: var(--fl); }
+.pc-bride .pc-fl { left:  calc(var(--fl) * -0.5); }
+.pc-groom .pc-fl { right: calc(var(--fl) * -0.5); }
+.pc-cap        { max-width: min(300px, 100%); }
+
+.cn            { width: clamp(70px, 28vw, 130px); height: clamp(70px, 28vw, 130px); }
+.gift .cn-bl,
+.gift .cn-br,
+#ayat .cn      { width: clamp(64px, 24vw, 110px); height: clamp(64px, 24vw, 110px); }
+
+.vine          { width: min(280px, 84vw); height: auto; aspect-ratio: 320 / 70; }
+
+/* ---------- Menu bawah: item boleh menyusut, tidak pernah terpotong ---------- */
+.nav                   { width: max-content; max-width: calc(100vw - 12px); }
+.nav a                 { flex: 0 1 auto; min-width: 0; }
+.nav a:not(.active)    { min-width: 24px; padding: 0 clamp(4px, 1.8vw, 9px); }
+.nav a.active          { flex: none; }
+
+/* ---------- Layar sempit (≤ 300px) ---------- */
+@media (max-width: 300px) {
+  :root                { --sec-y: 40px; --gap-m: 18px; }
+  .main section        { padding-left: 14px; padding-right: 14px; }
+  #hitung              { padding-left: 12px; padding-right: 12px; }
+
+  .eyebrow             { letter-spacing: 0.22em; }
+  .btn                 { padding: 11px 16px; font-size: 0.62rem; letter-spacing: 0.14em; white-space: nowrap; }
+  .fab-btn             { width: 32px; height: 32px; }
+  .fab-btn svg         { width: 15px; height: 15px; }
+
+  /* splash */
+  .frame               { inset: 10px; }
+  .sp-tl, .sp-br       { width: 90px; height: 90px; }
+  .splash-content      { padding: 0 14px; }
+  .splash .date        { letter-spacing: 0.14em; }
+  .guest-greeting      { padding: 6px 10px 4px; }
+
+  /* cover */
+  .hero                { padding: 0 14px 52px; min-height: 440px; }
+  .hero .date          { letter-spacing: 0.22em; }
+  .names .amp          { font-size: 1.2rem; }
+
+  /* ayat */
+  .arch-frame          { padding: 44px 14px 28px; border-radius: 140px 140px 0 0; }
+  .ref                 { letter-spacing: 0.18em; }
+  .mark                { width: 40px; height: 40px; }
+
+  /* mempelai */
+  .salam               { font-size: 0.85rem; }
+  .pc-tag              { padding: 4px 12px; letter-spacing: 0.18em; }
+  .pc-cap              { margin-top: -34px; padding: 18px 10px 16px; }
+  .pc-parents          { font-size: 0.72rem; }
+  .pc-amp              { margin: 24px auto 44px; }
+  .pc-amp b            { width: 52px; height: 52px; font-size: 1.8rem; }
+
+  /* hitung mundur */
+  .timer               { gap: 4px; }
+  .tbox                { padding: 10px 0 8px; }
+  .tbox .lbl           { font-size: 0.48rem; letter-spacing: 0.06em; }
+
+  /* acara */
+  .event-card          { padding: 56px 12px; border-radius: 120px; }
+  .kind                { letter-spacing: 0.2em; }
+  .month               { letter-spacing: 0.1em; }
+  .time                { font-size: 1rem; }
+  .place               { font-size: 0.78rem; }
+  .flora               { width: 66px; height: 66px; }
+  .ev-sep              { max-width: 190px; }
+  .ev-flower           { width: 38px; height: 38px; }
+
+  /* RSVP */
+  .choices             { grid-template-columns: 1fr; }
+  .fl                  { letter-spacing: 0.14em; }
+  .rsvp-form input[type="text"],
+  .rsvp-form textarea  { padding: 12px; }
+  .name-lock.is-locked input[type="text"] { font-size: 1.15rem; }
+  .wish-list           { max-height: 260px; }
+  .wish-head           { flex-wrap: wrap; gap: 4px; }
+
+  /* hadiah & penutup */
+  .bank-name           { letter-spacing: 0.18em; }
+  .copy                { padding: 9px 16px; letter-spacing: 0.14em; }
+  .closing .with       { letter-spacing: 0.18em; }
+}
+
+/* ---------- Layar sangat sempit (≤ 260px) ---------- */
+@media (max-width: 260px) {
+  .names .amp          { font-size: 1rem; }
+  .eyebrow             { font-size: 0.58rem; letter-spacing: 0.16em; }
+  .lead                { font-size: 0.78rem; }
+  .btn                 { padding: 10px 12px; letter-spacing: 0.1em; }
+  .tbox .num           { font-size: 1rem; }
+  .tbox .lbl           { font-size: 0.44rem; letter-spacing: 0.02em; }
+}
